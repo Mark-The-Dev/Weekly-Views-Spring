@@ -7,6 +7,7 @@ import javax.security.auth.message.AuthException;
 
 public interface UserService {
 
+
     User validateUser(String email, String password) throws WvAuthException;
 
     User registerUser(String firstName, String lastName, String email, String password) throws WvAuthException;
