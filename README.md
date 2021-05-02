@@ -34,6 +34,9 @@ Current launch tips:
 after cloned and built in gradle run postgres command:
 psql -U postgres --file weekviewspring_db.sql
 
+register route:
+localhost:8080/users/register
+
 <hr>
 <!--
 <p align="center">
