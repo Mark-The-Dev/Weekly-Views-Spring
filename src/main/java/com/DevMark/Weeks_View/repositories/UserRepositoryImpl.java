@@ -4,6 +4,7 @@ import com.DevMark.Weeks_View.domain.User;
 import com.DevMark.Weeks_View.exceptions.WvAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,8 @@ public class UserRepositoryImpl implements UserRepository {
             "VALUES(NEXTVAL('WV_USERS-SEQ'), ?, ?, ?, ?)";
 
     private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM WV_USERS WHERE EMAIL = ?";
+    private static final String SQL_FIND_BY_ID = "SELECT USER_ID. FIRST_NAME, LAST_NAME, EMAIL, PASSWORD " +
+            "FROM WV_USERS WHERE USER_ID = ?";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -49,11 +52,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Integer getCountByEmail(String email) {
-        return null;
+        return jdbcTemplate.queryForObject(SQL_COUNT_BY_EMAIL, new Object[]{email}, Integer.class);
     }
 
     @Override
     public User findById(Integer userId) {
-        return null;
+        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId}, userRowMapper);
     }
+
+    private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
+        return new User(rs.getInt("USER_ID"),
+            rs.getString("FIRST_NAME"),
+                rs.getString("LAST_NAME"),
+                rs.getString("EMAIL"),
+                rs.getString("PASSWORD"));
+    });
 }
