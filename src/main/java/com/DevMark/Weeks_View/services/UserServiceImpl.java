@@ -20,7 +20,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User validateUser(String email, String password) throws WvAuthException {
-        return null;
+        if (email != null) email = email.toLowerCase();
+
+        return userRepository.findByEmailAndPassword(email, password);
     }
 
     @Override

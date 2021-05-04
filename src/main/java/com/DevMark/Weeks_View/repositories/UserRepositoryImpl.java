@@ -3,6 +3,7 @@ package com.DevMark.Weeks_View.repositories;
 import com.DevMark.Weeks_View.domain.User;
 import com.DevMark.Weeks_View.exceptions.WvAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -21,6 +22,8 @@ public class UserRepositoryImpl implements UserRepository {
     private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM WV_USERS WHERE EMAIL = ?";
     private static final String SQL_FIND_BY_ID = "SELECT USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD " +
             "FROM WV_USERS WHERE USER_ID = ?";
+    private static final String SQL_FIND_BY_EMAIL = "select user_id, first_name, last_name, email, password " +
+            "from wv_users where email = ?";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -47,7 +50,16 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findByEmailAndPassword(String email, String password) throws WvAuthException {
-        return null;
+        try{
+            User user = jdbcTemplate.queryForObject(SQL_COUNT_BY_EMAIL, new Object[]{email}, userRowMapper);
+
+            if(!password.equals(user.getPassword()))
+                throw new WvAuthException("Invalid email/password");
+            return user;
+
+        } catch (EmptyResultDataAccessException e){
+            throw new WvAuthException("Invalid email/password");
+        }
     }
 
     @Override
