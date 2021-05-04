@@ -51,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findByEmailAndPassword(String email, String password) throws WvAuthException {
         try{
-            User user = jdbcTemplate.queryForObject(SQL_COUNT_BY_EMAIL, new Object[]{email}, userRowMapper);
+            User user = jdbcTemplate.queryForObject(SQL_FIND_BY_EMAIL, new Object[]{email}, userRowMapper);
 
             if(!password.equals(user.getPassword()))
                 throw new WvAuthException("Invalid email/password");
