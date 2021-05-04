@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,8 +21,22 @@ public class UserResource {
     @Autowired
     UserService userService;
 
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap){
+        String email = (String) userMap.get("email");
+        String password = (String) userMap.get("password");
 
-     //simple post test
+        User user = userService.validateUser(email, password);
+        Map<String, String> map = new HashMap<>();
+        // will later return JWT token!
+        map.put("message", "LoggedIn successfully");
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+
+    };
+
+
+     //simple post test example using a string response
 //    @PostMapping("/register")
 //    public String registerUser(@RequestBody Map<String, Object> userMap){
 //        String firstName = (String) userMap.get("first_name");

@@ -35,7 +35,8 @@ after cloned and built in gradle run postgres command:
 psql -U postgres --file weekviewspring_db.sql
 
 register route:
-localhost:8080/users/register
+http://localhost:8080/api/users/register
+
 
 <hr>
 <!--
