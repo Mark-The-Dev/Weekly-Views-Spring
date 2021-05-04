@@ -65,7 +65,7 @@ public class UserRepositoryImpl implements UserRepository {
         try{
             User user = jdbcTemplate.queryForObject(SQL_FIND_BY_EMAIL, new Object[]{email}, userRowMapper);
 
-            if(!password.equals(user.getPassword()))
+            if(!BCrypt.checkpw(password, user.getPassword()))
                 throw new WvAuthException("Invalid email/password");
             return user;
 
