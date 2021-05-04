@@ -15,11 +15,11 @@ import java.sql.Statement;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-    private static final String SQL_CREATE = "INSERT INTO WV_USERS(USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD)" +
-            "VALUES(NEXTVAL('WV_USERS-SEQ'), ?, ?, ?, ?)";
+    private static final String SQL_CREATE = "INSERT INTO WV_USERS(USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) " +
+            "VALUES(NEXTVAL('WV_USERS_SEQ'), ?, ?, ?, ?)";
 
     private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM WV_USERS WHERE EMAIL = ?";
-    private static final String SQL_FIND_BY_ID = "SELECT USER_ID. FIRST_NAME, LAST_NAME, EMAIL, PASSWORD " +
+    private static final String SQL_FIND_BY_ID = "SELECT USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD " +
             "FROM WV_USERS WHERE USER_ID = ?";
 
     @Autowired
