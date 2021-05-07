@@ -32,25 +32,11 @@ public class UserResource {
         String password = (String) userMap.get("password");
 
         User user = userService.validateUser(email, password);
-        Map<String, String> map = new HashMap<>();
-        // will later return JWT token!
-        map.put("message", "LoggedIn successfully");
 
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
 
     };
 
-
-     //simple post test example using a string response
-//    @PostMapping("/register")
-//    public String registerUser(@RequestBody Map<String, Object> userMap){
-//        String firstName = (String) userMap.get("first_name");
-//        String lastName = (String) userMap.get("last_name");
-//        String email = (String) userMap.get("email");
-//        String password = (String) userMap.get("password");
-//
-//        return firstName + ", " + lastName + ", " + email +", " + password;
-//    }
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, String >> registerUser(@RequestBody Map<String, Object> userMap){
@@ -60,11 +46,8 @@ public class UserResource {
         String password = (String) userMap.get("password");
 
         User user = userService.registerUser(firstName, lastName, email, password);
-        Map<String, String> map = new HashMap<>();
-        // eventually will put jwt here
-        map.put("message", "registered successfully");
 
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
 
     }
 
